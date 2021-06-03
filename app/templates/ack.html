@@ -9,10 +9,12 @@ The Answer Is: {{ answer }}
 <div class="d-flex justify-content-center">
 
 
-        <form action='{% url 'app:fibonacci' %}' method='post'>
+        <form action='{% url 'app:ackerman' %}' method='post'>
         {% csrf_token %}
     <div class="form-group">
-        {{ form.as_p }}
+        <label>Ackerman Function</label>
+        <input type="text" name='m' class="form-control" placeholder="Enter Positive Integer M"></br>
+        <input type="text" name='n' class="form-control" placeholder="Enter Positive Integer N">
         <small  class="form-text text-danger">{{ error }}</small>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
