@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if answer %}
+<div class="alert alert-primary" role="alert">
+The Answer Is: {{ answer }}
+</div>
+{% endif %}
+<div class="d-flex justify-content-center">
+
+
+        <form action='{% url 'app:fibonacci' %}' method='post'>
+        {% csrf_token %}
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="text" name='inp' class="form-control" placeholder="Enter Positive Integer">
+        <small  class="form-text text-danger">{{ error }}</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+{% endblock content %}
+
