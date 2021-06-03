@@ -3,17 +3,17 @@
 {% block content %}
 {% if answer %}
 <div class="alert alert-primary" role="alert">
-The Answer Is: {{ answer }}
+<p class='text-center'>The Answer Is: {{ answer }}</p>
 </div>
 {% endif %}
 <div class="d-flex justify-content-center">
 
 
-        <form action='{% url 'app:fibonacci' %}' method='post'>
+        <form action='{% url 'app:factorial' %}' method='post'>
         {% csrf_token %}
     <div class="form-group">
-        <label>Fibonacci Sequence</label>
-        <input type="text" name='inp' class="form-control" placeholder="Enter Positive Integer">
+        <label>Factorial Function</label>
+        <input type="text" name='n' class="form-control" placeholder="Enter Positive Integer N">
         <small  class="form-text text-danger">{{ error }}</small>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
