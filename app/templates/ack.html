@@ -1,26 +1,24 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 {% if answer %}
 <div class="alert alert-primary" role="alert">
-The Answer Is: {{ answer }}
+    The Answer Is: {{ answer }}
 </div>
 {% endif %}
 <div class="d-flex justify-content-center">
 
 
-        <form action='{% url 'app:ackerman' %}' method='post'>
+    <form action='{% url 'app:ackerman' %}' method='post'>
         {% csrf_token %}
-    <div class="form-group">
-        <label>Ackerman Function</label>
-        <input type="text" name='m' class="form-control" placeholder="Enter Positive Integer M"></br>
-        <input type="text" name='n' class="form-control" placeholder="Enter Positive Integer N">
-        <small  class="form-text text-danger">{{ error }}</small>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label>Ackerman Function</label>
+            {{ form | crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 </div>
 
 {% endblock content %}
-

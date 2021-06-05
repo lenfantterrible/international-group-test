@@ -1,11 +1,33 @@
 from django.shortcuts import render
 from time import perf_counter
 from django.views.generic import TemplateView
-
-
+from .forms import AckermanForm, FactForm, FiboForm 
+from django.views import View
 
 class HomeView(TemplateView):
     template_name = "base.html"
+
+class FiboView(View):
+    form_class = FiboForm
+    template_name = 'fib.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            time1 = perf_counter()
+            answer = calculate_fib(form.cleaned_data['n'])
+            time2 = perf_counter()
+
+            return render(request, self.template_name, {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds', 'form': form})
+        else: 
+            return render(request, self.template_name, {'form': form})  
+
+
+
 
 def calculate_fib(number):
 
@@ -20,23 +42,39 @@ def calculate_fib(number):
 
     return second
 
+# def fibonacci(request):
+#     if request.method == 'POST':
+#         try:
+#             inp = int(request.POST['inp']) 
+#         except:
+#             return render(request, 'fib.html', {'error': 'Please Enter a Valid Number'})
+        
+#         if inp <= 0:
+#             return render(request, 'fib.html', {'error': 'Please Enter a Positive Integer'})
+
+#         time1 = perf_counter()
+#         answer = calculate_fib(inp)
+#         time2 = perf_counter()
+
+#         return render(request, 'fib.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds' })
+#     else:
+#         return render(request, 'fib.html', {})
+
 def fibonacci(request):
     if request.method == 'POST':
-        try:
-            inp = int(request.POST['inp']) 
-        except:
-            return render(request, 'fib.html', {'error': 'Please Enter a Valid Number'})
+        form = FiboForm(request.POST)
         
-        if inp <= 0:
-            return render(request, 'fib.html', {'error': 'Please Enter a Positive Integer'})
+        if form.is_valid():
+            time1 = perf_counter()
+            answer = calculate_fib(form.cleaned_data['n'])
+            time2 = perf_counter()
 
-        time1 = perf_counter()
-        answer = calculate_fib(inp)
-        time2 = perf_counter()
-
-        return render(request, 'fib.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds' })
+            return render(request, 'fib.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds', 'form': form})
+        else: 
+            return render(request, 'fib.html', {'form': form})  
     else:
-        return render(request, 'fib.html', {})
+        form = FiboForm()
+        return render(request,'fib.html', {'form': form})
 
 
 def calculate_ackerman(m, n):
@@ -75,25 +113,44 @@ def calculate_ackerman(m, n):
     return cache[m][n]
 
 
+# def ackerman(request):
+#     if request.method == 'POST':
+#         try:
+#             m = int(request.POST['m']) 
+#             n = int(request.POST['n']) 
+#         except:
+#             return render(request, 'ack.html', {'error': 'Please Enter a Valid Number'})
+        
+#         if m <= 0 or n <= 0:
+#             return render(request, 'ack.html', {'error': 'Please Enter a Positive Integer'})
+
+#         time1 = perf_counter()
+#         answer = calculate_ackerman(m, n)
+#         time2 = perf_counter()
+
+#         return render(request, 'ack.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds' })
+
+#     else:
+#         return render(request, 'ack.html', {})
+
 def ackerman(request):
     if request.method == 'POST':
-        try:
-            m = int(request.POST['m']) 
-            n = int(request.POST['n']) 
-        except:
-            return render(request, 'ack.html', {'error': 'Please Enter a Valid Number'})
+
+        form = AckermanForm(request.POST)
         
-        if m <= 0 or n <= 0:
-            return render(request, 'ack.html', {'error': 'Please Enter a Positive Integer'})
+        if form.is_valid():
+            time1 = perf_counter()
+            answer = calculate_ackerman(form.cleaned_data['m'], form.cleaned_data['n'])
+            time2 = perf_counter()
 
-        time1 = perf_counter()
-        answer = calculate_ackerman(m, n)
-        time2 = perf_counter()
+            return render(request, 'ack.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds', 'form': form})
 
-        return render(request, 'ack.html', {'answer': f'{answer}\n calculated in {(time2 - time1)*1000:0.10f} milliseconds' })
-
+        else: 
+            return render(request, 'ack.html', {'form': form})
     else:
-        return render(request, 'ack.html', {})
+        form = AckermanForm()
+        return render(request, 'ack.html', {'form': form})
+
 
 
 def fact(n):
@@ -106,19 +163,19 @@ def fact(n):
 
 def factorial(request):
     if request.method == 'POST':
-        try:
-            n = int(request.POST['n']) 
-        except:
-            return render(request, 'fact.html', {'error': 'Please Enter a Valid Number'})
         
-        if n <= 0:
-            return render(request, 'fact.html', {'error': 'Please Enter a Positive Integer'})
-
-        time1 = perf_counter()
-        answer = fact(n)
-        time2 = perf_counter()
+        form = FactForm(request.POST)
+        
+        if form.is_valid():
+            time1 = perf_counter()
+            answer = fact(form.cleaned_data['n'])
+            time2 = perf_counter()
     
-        return render(request, 'fact.html', {'answer': f'{answer},   calculated in {(time2 - time1)*1000:0.10f} milliseconds' })
+            return render(request, 'fact.html', {'answer': f'{answer},   calculated in {(time2 - time1)*1000:0.10f} milliseconds', 'form': form })
+
+        else:
+            return render(request, 'fact.html', {'form': form})
 
     else:
-        return render(request, 'fact.html', {})
+        form = FactForm()
+        return render(request, 'fact.html', {'form': form})

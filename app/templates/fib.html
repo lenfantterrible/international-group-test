@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+
 {% if answer %}
 <div class="alert alert-primary" role="alert">
-The Answer Is: {{ answer }}
+    The Answer Is: {{ answer }}
 </div>
 {% endif %}
+
 <div class="d-flex justify-content-center">
 
 
-        <form action='{% url 'app:fibonacci' %}' method='post'>
-        {% csrf_token %}
-    <div class="form-group">
-        <label>Fibonacci Sequence</label>
-        <input type="text" name='inp' class="form-control" placeholder="Enter Positive Integer">
-        <small  class="form-text text-danger">{{ error }}</small>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <form action='{% url 'app:fibonacci' %}' method='post'>
+        <div class="form-group">
+            <label>Fibonacci Sequence</label>
+            {% csrf_token %}
+            {{ form|crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 </div>
 
 {% endblock content %}
-

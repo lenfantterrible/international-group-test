@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 {% if answer %}
 <div class="alert alert-primary" role="alert">
-<p class='text-center'>The Answer Is: {{ answer }}</p>
+    <p class='text-center'>The Answer Is: {{ answer }}</p>
 </div>
 {% endif %}
 <div class="d-flex justify-content-center">
 
 
-        <form action='{% url 'app:factorial' %}' method='post'>
+    <form action='{% url 'app:factorial' %}' method='post'>
         {% csrf_token %}
-    <div class="form-group">
-        <label>Factorial Function</label>
-        <input type="text" name='n' class="form-control" placeholder="Enter Positive Integer N">
-        <small  class="form-text text-danger">{{ error }}</small>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label>Factorial Function</label>
+            {{ form|crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 </div>
 
 {% endblock content %}
-

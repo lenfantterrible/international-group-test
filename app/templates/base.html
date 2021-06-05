@@ -8,6 +8,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .asteriskField {
+      color: red;
+    }
+
+  </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,19 +23,22 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Features
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{% url 'app:fibonacci' %}">Fibonacci Sequence</a>
-          <a class="dropdown-item" href="{% url 'app:ackerman' %}">Ackerman Function</a>
-          <a class="dropdown-item" href="{% url 'app:factorial' %}">Factorial</a>
-        </div>
+<li>        <a class="nav-link" href="{% url 'app:fibonacci' %}" id="navbarDropdownMenuLink"  aria-haspopup="true" aria-expanded="false">
+          Fibonacci Sequence
+        </a></li>
+<li>        <a class="nav-link" href="{% url 'app:ackerman' %}" id="navbarDropdownMenuLink"  aria-haspopup="true" aria-expanded="false">
+          Ackerman Function
+        </a></li>
+<li>                <a class="nav-link" href="{% url 'app:factorial' %}" id="navbarDropdownMenuLink"  aria-haspopup="true" aria-expanded="false">
+          Factorial
+        </a></li>
+
       </li>
     </ul>
   </div>
 </nav>
+
+
 
 {% block content %}
 
