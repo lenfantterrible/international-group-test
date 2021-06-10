@@ -1,7 +1,7 @@
 from django import forms 
 
 class FiboForm(forms.Form):
-    n = forms.IntegerField(label="")
+    n = forms.IntegerField(min_value=1, label="")
 
     def clean(self):
         super().clean()
@@ -15,8 +15,8 @@ class FiboForm(forms.Form):
 
 class AckermanForm(forms.Form):
 
-    m = forms.IntegerField(label="Positive Integer M")
-    n = forms.IntegerField(label="Positive Integer N")
+    m = forms.IntegerField(min_value=1, label="Positive Integer M")
+    n = forms.IntegerField(min_value=1, label="Positive Integer N")
 
     def clean(self):
         super().clean()
